@@ -4,11 +4,6 @@
 //Comment line below out to turn off Serial logging
 //#define LOGGING
 
-int address = 0x20;
-int address2 = 0x21;
-int retrys = 0;
-byte outputRegister = 0x0A;
-
 //Constructor
 NCD2Relay::NCD2Relay(){
 }
@@ -35,7 +30,7 @@ void NCD2Relay::setAddress(int a0, int a1, int a2){
     Wire.write(0xFC);
     //Determine if device is present at that address
     byte status = Wire.endTransmission();
-    
+
     Wire.beginTransmission(address);
     Wire.write(0x06);
     Wire.write(0xFC);
@@ -54,7 +49,7 @@ void NCD2Relay::setAddress(int a0, int a1, int a2){
             initialized = false;
             retrys = 0;
         }
-        
+
     }else{
         // Serial.println("Command Successful");
         initialized = true;
@@ -364,7 +359,7 @@ readBankOneRetry:
         Wire.requestFrom(address, 1);
         bankOneStatus = Wire.read();
     }
-    
+
 }
 
 int NCD2Relay::readInputStatus(int input){
