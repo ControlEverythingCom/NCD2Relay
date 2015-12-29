@@ -28,11 +28,11 @@ public:
     int readInputStatus(int input);
     //Read status of all inputs
     int readAllInputs();
-    
+
     //User Accessible Variables
     //Whether or not the controller is ready to accept commands
     bool initialized;
-    
+
 private:
     //internal use method for refreshing bank status variables
     void readStatus();
@@ -44,5 +44,10 @@ private:
     byte bankThreeStatus;
     //Status of relays in bank 4
     byte bankFourStatus;
+
+    int address = 0x20;
+    int address2 = 0x21;
+    int retrys = 0;
+    byte outputRegister = 0x0A;
 
 };
