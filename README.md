@@ -4,7 +4,7 @@ This Library is intended for use with NCD 2 Relay Particle Core/Photon compatibl
 
 The intention of this library is to make use of the NCD 2 channel relay controller with Particle development web IDE as simple as possible for users.
 ###Developer information
-NCD has been designing and manufacturing computer control products since 1995.  We have specialized in hardware design and manufacturing of Relay controllers for 20 years.  We pride ourselves as being the industry leader of computer control relay products.  Our products are proven reliable and we are very excited to support Particle.  For more information on NCD please visit www.controlanything.com 
+NCD has been designing and manufacturing computer control products since 1995.  We have specialized in hardware design and manufacturing of Relay controllers for 20 years.  We pride ourselves as being the industry leader of computer control relay products.  Our products are proven reliable and we are very excited to support Particle.  For more information on NCD please visit www.controlanything.com
 
 ###Requirements
 - NCD 2 Channel Particle Core/Photon Compatible Relay board
@@ -16,7 +16,7 @@ NCD has been designing and manufacturing computer control products since 1995.  
 
 ### How to use this library
 
-The libary must be imported into your application.  This can be done through the Particle WEB IDE by selecting Libraries, then select the NCD2Relay.  Click Include in App button.  Select the App you want to include the library in.  Finally click Add to this app.  For more information see [Particles's documentation] [sparkIncludeLibrary] 
+The libary must be imported into your application.  This can be done through the Particle WEB IDE by selecting Libraries, then select the NCD2Relay.  Click Include in App button.  Select the App you want to include the library in.  Finally click Add to this app.  For more information see [Particle's documentation] [sparkIncludeLibrary].
 
 ### Example use
 
@@ -25,58 +25,59 @@ Once the Library is included in your applicaiton you should see an include state
 //This #include statement was automatically added by the Particle IDE.
 #include "NCD2Relay/NCD2Relay.h"
 ```
+
 Now you need to instanciate an object of the library for use in your application like this:
 ```cpp
 NCD2Relay relayController;
 ```
 
-Here is an example use case for the class
+Here is an example use case for the class:
 ```cpp
 // This #include statement was automatically added by the Particle IDE.
 #include "NCD2Relay/NCD2Relay.h"
 NCD2Relay relayController;
 
 void setup() {
-Serial.begin(115200);
-relayController.setAddress(0,0,0);
+    Serial.begin(115200);
+    relayController.setAddress(0,0,0);
 }
 
 void loop() {
-//Relay test
-relayController.turnOnRelay(1);
-int rOnStatus = relayController.readRelayStatus(1);
-Serial.print("Status after On: ");
-Serial.println(rOnStatus);
-delay(500);
-relayController.turnOnRelay(2);
-delay(500);
-relayController.turnOffRelay(1);
-int rOffStatus = relayController.readRelayStatus(1);
-Serial.print("Status after Off: ");
-Serial.println(rOffStatus);
-delay(500);
-relayController.turnOffRelay(2);
-delay(500);
-relayController.turnOnAllRelays();
-delay(500);
-relayController.turnOffAllRelays();
-delay(500);
-relayController.toggleRelay(1);
-delay(500);
-relayController.toggleRelay(1);
-delay(500);
-relayController.toggleRelay(2);
-delay(500);
-relayController.toggleRelay(2);
-delay(500);
+    //Relay test
+    relayController.turnOnRelay(1);
+    int rOnStatus = relayController.readRelayStatus(1);
+    Serial.print("Status after On: ");
+    Serial.println(rOnStatus);
+    delay(500);
+    relayController.turnOnRelay(2);
+    delay(500);
+    relayController.turnOffRelay(1);
+    int rOffStatus = relayController.readRelayStatus(1);
+    Serial.print("Status after Off: ");
+    Serial.println(rOffStatus);
+    delay(500);
+    relayController.turnOffRelay(2);
+    delay(500);
+    relayController.turnOnAllRelays();
+    delay(500);
+    relayController.turnOffAllRelays();
+    delay(500);
+    relayController.toggleRelay(1);
+    delay(500);
+    relayController.toggleRelay(1);
+    delay(500);
+    relayController.toggleRelay(2);
+    delay(500);
+    relayController.toggleRelay(2);
+    delay(500);
 
-//Input Test
-byte status = relayController.readAllInputs();
-if(status != 0){
-Serial.print("Status: ");
-Serial.println(status);
-}
-delay(50);
+    //Input Test
+    byte status = relayController.readAllInputs();
+    if(status != 0){
+        Serial.print("Status: ");
+        Serial.println(status);
+    }
+    delay(50);
 }
 ```
 
@@ -88,7 +89,7 @@ void setAddress(int a0, int a1, int a2);
 >the controller is lost or broken to recover communication  This method accepts two int arguments.  This
 >tells the Library what address to direct commands to.  a0 and a1 ints are representations of the two
 >jumpers on the 4 channel relay controller which are labeled on the board A0, A1, and A2.  If the jumper is
->installed then that int in this call should be set to 1.  If it is not installed then the int should be set to 
+>installed then that int in this call should be set to 1.  If it is not installed then the int should be set to
 So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
 
 
@@ -142,7 +143,7 @@ int readRelayStatus(int relay);
 ```
 >This method accepts one int argument and returns one int.  Valid relay int arguments 1-2.  A call to this
 >method will read the status of the given relay passed by the relay argument and return the current on/off
->status of the given relay.  1 will be returned if the relay is on and 0 will be returned if the relay is off. 
+>status of the given relay.  1 will be returned if the relay is on and 0 will be returned if the relay is off.
 >256 will be returned if an error has occured(generally due to lack of communication with the controller).
 
 
@@ -150,7 +151,7 @@ int readRelayStatus(int relay);
 int readRelayBankStatus();
 ```
 >This method accepts no arguments and returns one int.  A call to this
->method will read and return the status of all relays on the board. 
+>method will read and return the status of all relays on the board.
 >Each relay in the bank is represented as a bit in the returned int.  Valid returns are 0-3.  256 will be
 >returned if an error has occured(generally due to lack of communciation with controller).
 
@@ -168,8 +169,8 @@ int readInputStatus(int input);
 int readAllInputs();
 ```
 >This method accepts no arguments and returns one byte.  A call to this
->method will read and return the status of all 6 inputs on the board. 
->Each input on the board is represented as a bit in the returned byte.  Valid returns are 0-64.  If the input is closed 
+>method will read and return the status of all 6 inputs on the board.
+>Each input on the board is represented as a bit in the returned byte.  Valid returns are 0-64.  If the input is closed
 >the bit in the byte is set to 1, if the input is open the bit in the byte is set to 0.  256 will be
 >returned if an error has occured(generally due to lack of communciation with controller).
 
