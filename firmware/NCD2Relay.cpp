@@ -412,10 +412,10 @@ int NCD2Relay::readInputStatus(int input){
     }
     Wire.requestFrom(address, 1);
     byte bankStatus = Wire.read();
-    if(!bankStatus & value){
-        return 1;
-    }else{
+    if(bankStatus & value){
         return 0;
+    }else{
+        return 1;
     }
 }
 
