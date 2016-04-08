@@ -363,7 +363,7 @@ readBankOneRetry:
 }
 
 int NCD2Relay::readInputStatus(int input){
-    if(input > 4 || input < 0){
+    if(input > 6 || input < 1){
         return 256;
     }
     int value;
