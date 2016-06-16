@@ -363,7 +363,7 @@ readBankOneRetry:
 }
 
 int NCD2Relay::readInputStatus(int input){
-    if(input > 4 || input < 0){
+    if(input > 6 || input < 1){
         return 256;
     }
     int value;
@@ -413,9 +413,9 @@ int NCD2Relay::readInputStatus(int input){
     Wire.requestFrom(address, 1);
     byte bankStatus = Wire.read();
     if(bankStatus & value){
-        return 1;
-    }else{
         return 0;
+    }else{
+        return 1;
     }
 }
 

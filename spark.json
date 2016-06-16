@@ -1,6 +1,10 @@
 {
     "name": "NCD2Relay",
+<<<<<<< HEAD
     "version": "0.0.3",
+=======
+    "version": "0.0.6",
+>>>>>>> origin/master
     "author": "Travis Elliott <travis@controlanything.com>",
     "license": "GNU",
     "description": "Library intended for the operation of NCD 2 channel Spark compatible Relay Controller"
