@@ -1,8 +1,5 @@
 {
     "name": "NCD2Relay",
-<<<<<<< HEAD
-    "version": "0.0.3",
-=======
     "version": "0.0.6",
 >>>>>>> origin/master
     "author": "Travis Elliott <travis@controlanything.com>",
