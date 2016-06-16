@@ -1,5 +1,5 @@
 module['exports'] = function echoHttp (hook) {
-  post('https://api.particle.io/v1/devices/#ENTER_DEVICE_ID_HERE#controlRelay',{arg : '2flicker', access_token : 'ENTER_YOUR_PARTICLE_ACCOUNT_ACCESS_TOKEN'})
+  post('https://api.particle.io/v1/devices/#ENTER_DEVICE_ID_HERE#/controlRelay',{arg : '2flicker', access_token : 'ENTER_YOUR_PARTICLE_ACCOUNT_ACCESS_TOKEN'})
 };
 
 function post(path, params, method) {
