@@ -1,12 +1,3 @@
-// This #include statement was automatically added by the Particle IDE.
-#include <SI7020-A20_CE.h>
-
-// This #include statement was automatically added by the Particle IDE.
-#include <blynk.h>
-
-/* Includes ------------------------------------------------------------------*/
-#include <NCD2Relay.h>
-
 //Relay Controller Library object
 NCD2Relay relayController;
 
