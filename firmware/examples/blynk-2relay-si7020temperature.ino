@@ -15,7 +15,7 @@ int minTrips = 5;
 double tempF = 0;
 
 //Authentication code for Blynk app running on phone.  Enter the Auth code for the project on your Blynk app here.
-char blynkAuth[] = "e18c5ab081164750a12811b22db41600";
+char blynkAuth[] = "";
 
 //LED widget objects on Blynk app user interface.
 //Used for indicating status of inputs on relay board(Closed/Open)
