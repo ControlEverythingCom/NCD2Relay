@@ -174,6 +174,15 @@ int readAllInputs();
 >the bit in the byte is set to 1, if the input is open the bit in the byte is set to 0.  256 will be
 >returned if an error has occured(generally due to lack of communciation with controller).
 
+```cpp
+byte setPullUp(byte pullup);
+```
+>This method accepts one byte. Valid byte arguments 0x00 to 0xFC. A call to this method will set or remove the pull-up
+>resistors on the inputs. Setting the bit corresponding to the MCP23008 input pin will internally pull the pin high
+>through a 100Kohm resistor. By default the pull-up resistors are all enabled. Bit 7-0 corresponds to PU7:PU0
+>excluding bits 0 and 1 as they are the relay driver pins.
+>Example: default setting byte is 0XFC, to turn off the pull-up resistor for input 1 the byte value would be
+>0xF8 (remeber that 0 and 1 are for relay control).
 
 ###Public accessible variables
 ```cpp
