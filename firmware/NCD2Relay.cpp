@@ -449,3 +449,37 @@ int NCD2Relay::readAllInputs(){
     byte shifted = inverted >> 2;
     return shifted;
 }
+
+void NCD2Relay::setPullUp(byte pullup){
+    // twoRelayMask = 0x03;    // becuase this is the two relay board don't touch GPIO 1 and 2
+    if((pullup & twoRelayMask) > 0x00){
+        skippedPullup = 1;
+        return;
+    }
+    byte registerAddress = 0x06;
+    setPullUpRetry:
+    Wire.beginTransmission(address);
+    Wire.write(registerAddress);
+    Wire.write(pullup);
+    byte status = Wire.endTransmission();
+    if(status !=0){
+        if(retrys < 3){
+    #ifdef LOGGING
+            Serial.println("Retry set pull-up");
+    #endif
+            retrys++;
+            goto setPullUpRetry;
+        }else{
+    #ifdef LOGGING
+        Serial.println("Set Pull Up failed");
+    #endif
+            initialized = false;
+            retrys = 0;
+        }
+        
+    }else{
+        initialized = true;
+        retrys = 0;
+        readStatus();
+    }
+}

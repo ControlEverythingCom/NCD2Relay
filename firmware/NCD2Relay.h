@@ -28,6 +28,8 @@ public:
     int readInputStatus(int input);
     //Read status of all inputs
     int readAllInputs();
+    //Set input pull-up resistors on or off
+    void setPullUp(byte pullup);
 
     //User Accessible Variables
     //Whether or not the controller is ready to accept commands
