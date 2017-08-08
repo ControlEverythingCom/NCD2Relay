@@ -6,8 +6,10 @@ class NCD2Relay{
 public:
     //Constructor
     NCD2Relay(void);
-    //Set Address.  Indicate status of jumpers on board.  Send 0 for not installed, send 1 for installed
-    void setAddress(int a0, int a1, int a2);
+    //Set Init.  a0 through a1 Indicate status of jumpers on board.  Send 0 for not installed, send 1 for installed.
+    //           Optional: direction set GPIO pin as input or output bitwise, 1 input, 0 output
+    //           Optional: pullup set GPIO internal pull-up resistors on or off bitwise, 1 on, 0 off.
+    void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
     //Turn on Relay
     void turnOnRelay(int relay);
     //Turn off Relay
@@ -28,13 +30,17 @@ public:
     int readInputStatus(int input);
     //Read status of all inputs
     int readAllInputs();
-    //Set input pull-up resistors on or off
-    void setPullUp(byte pullup);
+    // Turn on output if enabled
+    void setOutputOn(int output);
+    // Turn off output if enabled
+    void setOutputOff(int output);
+    // Set input pull-up resistors on or off
+    //void setPullUp(byte pullup);
 
     //User Accessible Variables
     //Whether or not the controller is ready to accept commands
     bool initialized;
-
+    
 private:
     //internal use method for refreshing bank status variables
     void readStatus();
