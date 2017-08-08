@@ -9,7 +9,8 @@ NCD2Relay::NCD2Relay(){
 }
 
 //Retry added
-void NCD2Relay::setAddress(int a0, int a1, int a2){
+void NCD2Relay::setInit(int a0, int a1, int a2, byte direction, byte pullup){
+    // Set address
     address = 0x20;
     if(a0 == 1){
         address = address | 1;
@@ -20,20 +21,27 @@ void NCD2Relay::setAddress(int a0, int a1, int a2){
     if(a2 == 1){
         address = address | 4;
     }
+    
+    // Set GPIO direction
+    byte directionMasked = (direction & 0xFC);  // Mask out the relay control pins
+    // Set pull-up resistors
+    byte pullupMasked = (pullup & direction);   // Only set pullup on/off for inout pins
+    
     //Start I2C port
     Wire.begin();
     //Open connection to specified address
     retryAddress1:
     Wire.beginTransmission(address);
-    //Set all channels to outputs
+    //Set channels 0 and 1 to outputs
     Wire.write(0x00);
-    Wire.write(0xFC);
+    Wire.write(directionMasked);
     //Determine if device is present at that address
     byte status = Wire.endTransmission();
 
     Wire.beginTransmission(address);
+    // turn off pull-up resistors
     Wire.write(0x06);
-    Wire.write(0xFC);
+    Wire.write(pullupMasked);
     status = Wire.endTransmission();
     if(status != 0){
         if(retrys < 3){
@@ -450,17 +458,124 @@ int NCD2Relay::readAllInputs(){
     return shifted;
 }
 
-void NCD2Relay::setPullUp(byte pullup){
-    // twoRelayMask = 0x03;    // becuase this is the two relay board don't touch GPIO 1 and 2
-    if((pullup & twoRelayMask) > 0x00){
-        skippedPullup = 1;
+void NCD2Relay::setOutputOn(int output){
+    if(output > 6 || output < 1){
         return;
     }
+    byte bankValue = bankOneStatus;
+    byte registerAddress = 0x0A;
+    switch(output){
+        case 1:
+            bankValue = bankValue | 4;
+            break;
+        case 2:
+            bankValue = bankValue | 8;
+            break;
+        case 3:
+            bankValue = bankValue | 16;
+            break;
+        case 4:
+            bankValue = bankValue | 32;
+            break;
+        case 5:
+            bankValue = bankValue | 64;
+            break;
+        case 6:
+            bankValue = bankValue | 128;
+            break;
+    }
+    turnOutputOnRetry:
+    Wire.beginTransmission(address);
+    Wire.write(registerAddress);
+    Wire.write(bankValue);
+    byte status = Wire.endTransmission();
+    if(status != 0){
+        if(retrys < 3){
+    #ifdef LOGGING
+            Serial.println("Retry Turn On Output command");
+    #endif
+            retrys++;
+            goto turnOutputOnRetry;
+        }else{
+    #ifdef LOGGING
+        Serial.println("Turn on Relay Failed");
+    #endif
+        initialized = false;
+        retrys = 0;
+        }
+    }else{
+        initialized = true;
+        retrys = 0;
+        readStatus();
+    }
+    
+}
+
+void NCD2Relay::setOutputOff(int output){
+    if(output > 6 || output < 1){
+        return;
+    }
+    byte bankValue = bankOneStatus;
+    byte registerAddress = 0x0A;
+    switch(output){
+        case 1:
+            bankValue = bankValue | -4;
+            break;
+        case 2:
+            bankValue = bankValue | -8;
+            break;
+        case 3:
+            bankValue = bankValue | -16;
+            break;
+        case 4:
+            bankValue = bankValue | -32;
+            break;
+        case 5:
+            bankValue = bankValue | -64;
+            break;
+        case 6:
+            bankValue = bankValue | -128;
+            break;
+    }
+    turnOutputOffRetry:
+    Wire.beginTransmission(address);
+    Wire.write(registerAddress);
+    Wire.write(bankValue);
+    byte status = Wire.endTransmission();
+    if(status != 0){
+        if(retrys < 3){
+    #ifdef LOGGING
+            Serial.println("Retry Turn Off Output command");
+    #endif
+            retrys++;
+            goto turnOutputOffRetry;
+        }else{
+    #ifdef LOGGING
+        Serial.println("Turn Off Relay Failed");
+    #endif
+        initialized = false;
+        retrys = 0;
+        }
+    }else{
+        initialized = true;
+        retrys = 0;
+        readStatus();
+    }
+    
+}
+
+/* void NCD2Relay::setPullUp(byte pullup){
+    // twoRelayMask = 0x03;    // becuase this is the two relay board don't touch GPIO 1 and 2
+//    if((pullup & twoRelayMask) > 0x00){
+//        return;
+//    }
+    byte pullupMasked = (pullup & 0xFC); // mask out the relay outputs
+    
     byte registerAddress = 0x06;
     setPullUpRetry:
     Wire.beginTransmission(address);
     Wire.write(registerAddress);
-    Wire.write(pullup);
+    Wire.write(pullupMasked);
     byte status = Wire.endTransmission();
     if(status !=0){
         if(retrys < 3){
@@ -483,3 +598,4 @@ void NCD2Relay::setPullUp(byte pullup){
         readStatus();
     }
 }
+*/
