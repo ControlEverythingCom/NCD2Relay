@@ -6,7 +6,7 @@ The intention of this library is to make use of the NCD 2 channel relay controll
 ###Developer information
 NCD has been designing and manufacturing computer control products since 1995.  We have specialized in hardware design and manufacturing of Relay controllers for 20 years.  We pride ourselves as being the industry leader of computer control relay products.  Our products are proven reliable and we are very excited to support Particle.  For more information on NCD please visit www.controlanything.com
 
-###Requirements
+### Requirements
 - NCD 2 Channel Particle Core/Photon Compatible Relay board
 - Particle Core/Photon module
 - Knowledge base for developing and programming with Particle Core/Photon modules.
@@ -39,7 +39,7 @@ NCD2Relay relayController;
 
 void setup() {
     Serial.begin(115200);
-    relayController.setAddress(0,0,0);
+    relayController.setInit(0,0,0);
 }
 
 void loop() {
@@ -81,16 +81,27 @@ void loop() {
 }
 ```
 
-###Public accessible methods
+### Public accessible methods
 ```cpp
-void setAddress(int a0, int a1, int a2);
+void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 ```
 >Must be called first before using the object.  This method should also be called any time communication with
->the controller is lost or broken to recover communication  This method accepts two int arguments.  This
->tells the Library what address to direct commands to.  a0 and a1 ints are representations of the two
->jumpers on the 4 channel relay controller which are labeled on the board A0, A1, and A2.  If the jumper is
->installed then that int in this call should be set to 1.  If it is not installed then the int should be set to
-So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
+>the controller is lost or broken to recover communication  This method accepts three int arguments and optionally
+>two byte arguments.  int a0, int a1 and int a2 tell the Library what address to direct commands to.  a0, a1 and a2 
+>ints are representations of the three jumpers on the 2 channel relay controller which are labeled on the board A0, 
+>A1, and A2.  If the jumper is installed then that int in this call should be set to 1.  If it is not installed then
+>the int should be set to 0.
+>
+>So if I have A0, A1, and A2 installed I would call ```relayController.setInit(1, 1, 1).```
+>
+>The direction and pullup arguments are optional and default to Input on GP2 through GP7 (input 1 through 6) with
+>pull-up resistors enabled. direction can be called without pullup and will enable all input pull-up resistors. 
+>pullup cannot be called without first calling direciton. direction and pullup are set bitwise with bit 2 representing
+>input/output 1 and bit 7 representing input/output 6.
+>
+>If I wanted to switch Input 6 to an output I would call ```setInit(0,0,0,0x7C)```
+>
+>If I wanted to turn off the pull-up resistor on Input 1 I would call ```setInit(0,0,0,0xFC,0xF8)```
 
 
 ```cpp
@@ -174,6 +185,15 @@ int readAllInputs();
 >the bit in the byte is set to 1, if the input is open the bit in the byte is set to 0.  256 will be
 >returned if an error has occured(generally due to lack of communciation with controller).
 
+```cpp
+byte setPullUp(byte pullup);
+```
+>This method accepts one byte. Valid byte arguments 0x00 to 0xFC. A call to this method will set or remove the pull-up
+>resistors on the inputs. Setting the bit corresponding to the MCP23008 input pin will internally pull the pin high
+>through a 100Kohm resistor. By default the pull-up resistors are all enabled. Bit 7-0 corresponds to PU7:PU0
+>excluding bits 0 and 1 as they are the relay driver pins.
+>Example: default setting byte is 0XFC, to turn off the pull-up resistor for input 1 the byte value would be
+>0xF8 (remeber that 0 and 1 are for relay control).
 
 ###Public accessible variables
 ```cpp
