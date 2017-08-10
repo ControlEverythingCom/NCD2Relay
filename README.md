@@ -196,7 +196,7 @@ void setOutputLow(int output);
 ```
 >This method accepts one int. Valid arguments 1-6. A call to this method will set the open drain output to ground.
 
-###Public accessible variables
+### Public accessible variables
 ```cpp
 bool initialized;
 ```
