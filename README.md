@@ -99,9 +99,9 @@ void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 >pullup cannot be called without first calling direciton. direction and pullup are set bitwise with bit 2 representing
 >input/output 1 and bit 7 representing input/output 6.
 >
->If I wanted to switch input 6 to an output with the pull-up resistor on I would call ```setInit(0,0,0,0x7C)```
+>If I wanted to switch Input 6 to an output I would call ```setInit(0,0,0,0x7C)```
 >
->The same call but turning off the internal pull-up resistor is ```setInit(0,0,0,0x7C,0x7C)```
+>If I wanted to turn off the pull-up resistor on Input 1 I would call ```setInit(0,0,0,0xFC,0xF8)```
 
 
 ```cpp
