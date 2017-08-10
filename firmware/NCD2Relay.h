@@ -9,6 +9,7 @@ public:
     //Set Init.  a0 through a1 Indicate status of jumpers on board.  Send 0 for not installed, send 1 for installed.
     //           Optional: direction set GPIO pin as input or output bitwise, 1 input, 0 output
     //           Optional: pullup set GPIO internal pull-up resistors on or off bitwise, 1 on, 0 off.
+    //           Default address: 000; direction: all inputs; pullup: all enabled.
     void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
     //Turn on Relay
     void turnOnRelay(int relay);
@@ -31,9 +32,9 @@ public:
     //Read status of all inputs
     int readAllInputs();
     // Turn on output if enabled
-    void setOutputOn(int output);
+    void setOutputHigh(int output);
     // Turn off output if enabled
-    void setOutputOff(int output);
+    void setOutputLow(int output);
     // Set input pull-up resistors on or off
     //void setPullUp(byte pullup);
 
