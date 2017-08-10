@@ -39,7 +39,7 @@ NCD2Relay relayController;
 
 void setup() {
     Serial.begin(115200);
-    relayController.setAddress(0,0,0);
+    relayController.setInit(0,0,0);
 }
 
 void loop() {
@@ -83,14 +83,19 @@ void loop() {
 
 ###Public accessible methods
 ```cpp
-void setAddress(int a0, int a1, int a2);
+void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 ```
 >Must be called first before using the object.  This method should also be called any time communication with
->the controller is lost or broken to recover communication  This method accepts two int arguments.  This
->tells the Library what address to direct commands to.  a0 and a1 ints are representations of the two
->jumpers on the 4 channel relay controller which are labeled on the board A0, A1, and A2.  If the jumper is
->installed then that int in this call should be set to 1.  If it is not installed then the int should be set to
-So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
+>the controller is lost or broken to recover communication  This method accepts three int arguments and optionally
+>two byte arguments.  int a0, int a1 and int a2 tell the Library what address to direct commands to.  a0, a1 and a2 
+>ints are representations of the three jumpers on the 2 channel relay controller which are labeled on the board A0, 
+>A1, and A2.  If the jumper is installed then that int in this call should be set to 1.  If it is not installed then
+>the int should be set to 0.
+>So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
+>The direction and pullup arguments are optional and default to Input on GP2 through GP7 with pull-up resistors
+>enabled. direction can be called without pullup and will enable any inputs pull-up resistor. pullup cannot be called
+>without first calling direciton.
+>direction and pullup are set bitwise with 
 
 
 ```cpp
