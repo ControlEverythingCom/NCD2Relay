@@ -81,7 +81,7 @@ void loop() {
 }
 ```
 
-###Public accessible methods
+### Public accessible methods
 ```cpp
 void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 ```
@@ -91,7 +91,9 @@ void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 >ints are representations of the three jumpers on the 2 channel relay controller which are labeled on the board A0, 
 >A1, and A2.  If the jumper is installed then that int in this call should be set to 1.  If it is not installed then
 >the int should be set to 0.
+
 >So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
+
 >The direction and pullup arguments are optional and default to Input on GP2 through GP7 with pull-up resistors
 >enabled. direction can be called without pullup and will enable any inputs pull-up resistor. pullup cannot be called
 >without first calling direciton.
