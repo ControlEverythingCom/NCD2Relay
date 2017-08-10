@@ -6,7 +6,7 @@ The intention of this library is to make use of the NCD 2 channel relay controll
 ###Developer information
 NCD has been designing and manufacturing computer control products since 1995.  We have specialized in hardware design and manufacturing of Relay controllers for 20 years.  We pride ourselves as being the industry leader of computer control relay products.  Our products are proven reliable and we are very excited to support Particle.  For more information on NCD please visit www.controlanything.com
 
-###Requirements
+### Requirements
 - NCD 2 Channel Particle Core/Photon Compatible Relay board
 - Particle Core/Photon module
 - Knowledge base for developing and programming with Particle Core/Photon modules.
@@ -91,13 +91,17 @@ void setInit(int a0, int a1, int a2, byte direction = 0xFC, byte pullup = 0xFC);
 >ints are representations of the three jumpers on the 2 channel relay controller which are labeled on the board A0, 
 >A1, and A2.  If the jumper is installed then that int in this call should be set to 1.  If it is not installed then
 >the int should be set to 0.
-
->So if I have A0, A1, and A2 installed I would call ```relayController.setAddress(1, 1, 1).```
-
->The direction and pullup arguments are optional and default to Input on GP2 through GP7 with pull-up resistors
->enabled. direction can be called without pullup and will enable any inputs pull-up resistor. pullup cannot be called
->without first calling direciton.
->direction and pullup are set bitwise with 
+>
+>So if I have A0, A1, and A2 installed I would call ```relayController.setInit(1, 1, 1).```
+>
+>The direction and pullup arguments are optional and default to Input on GP2 through GP7 (input 1 through 6) with
+>pull-up resistors enabled. direction can be called without pullup and will enable all input pull-up resistors. 
+>pullup cannot be called without first calling direciton. direction and pullup are set bitwise with bit 2 representing
+>input/output 1 and bit 7 representing input/output 6.
+>
+>If I wanted to switch input 6 to an output with the pull-up resistor on I would call ```setInit(0,0,0,0x7C)```
+>
+>The same call but turning off the internal pull-up resistor is ```setInit(0,0,0,0x7C,0x7C)```
 
 
 ```cpp
